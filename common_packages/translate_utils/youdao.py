@@ -61,8 +61,8 @@ class YoudaoTranslate(Translate):
         if response["errorCode"] != "0":
             raise ValueError(f"youdao translate error: {word} {response['errorCode']=}")
         return response
-
-    def format_word_response(self,response: dict) -> WordInfo:
+    @classmethod
+    def format_word_response(cls,response: dict) -> WordInfo:
         # only word
         basic_direction: dict = response["basic"]
 
@@ -114,8 +114,8 @@ class YoudaoTranslate(Translate):
         # print(json.dumps(res,indent=2,ensure_ascii=False))
         return format_response
     
-
-    def format_sentence_response(self, response: dict) -> dict:
+    @classmethod
+    def format_sentence_response(cls, response: dict) -> dict:
         sentence: str = response["query"]
         translation: list[str] = response["translation"]
 
@@ -132,7 +132,7 @@ class YoudaoTranslate(Translate):
         }
         
         return response
-    
+    @classmethod
     def download_audio_file(self, url: str) -> bytes:
         try:
             response = requests.get(url=url)

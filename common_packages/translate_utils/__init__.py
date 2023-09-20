@@ -32,21 +32,23 @@ class Translate(metaclass=ABCMeta):
     def translate(self,word: str) -> dict:
         ...
 
-    @abstractclassmethod
+    
     @classmethod
-    def format_word_response(self,response: dict) -> WordInfo:
+    @abstractclassmethod
+    def format_word_response(cls,response: dict) -> WordInfo:
         ...
 
-    @abstractclassmethod
     @classmethod
-    def format_sentence_response(self,response: dict) -> WordInfo:
+    @abstractclassmethod
+    def format_sentence_response(cls,response: dict) -> WordInfo:
         ...
 
-    @abstractclassmethod
     @classmethod
-    def download_audio_file(self,url: str) -> bytes:
+    @abstractclassmethod
+    def download_audio_file(cls,url: str) -> bytes:
         ...
 
+    @classmethod
     def generate_word_audio_file_name(self,word: str,audio_type: str) -> str:
         file_id: str = hashlib.md5(word.encode("utf-8")).hexdigest()
         file_name: str = f"word_youdao_{audio_type}_{file_id}.mp3"
