@@ -36,5 +36,4 @@ jobs:
           echo "password = ${{ secrets.PYPI_TOKEN}}" >> ~/.pypirc
 
       - name: upload package
-        run: |
-          && twine upload  dist/*
+        run: cat ~/.pypirc && twine upload  dist/*
