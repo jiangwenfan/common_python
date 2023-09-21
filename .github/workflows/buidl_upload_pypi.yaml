@@ -3,7 +3,7 @@ name: build and upload package to pypi
 on:
   push:
     paths:
-      - "common_packages/*"
+      - "common_packages/**"
 
 jobs:
   deploy:
