@@ -23,37 +23,41 @@ class WordInfo(TypedDict):
     extended_info: list[dict]
     grammar_info: str
 
+
+class SentenceInfo(TypedDict):
+    sentence: str
+    translation: list[str]
+    source_speak_url: str
+    translation_speak_url: str
+
+
 class Translate(metaclass=ABCMeta):
     @abstractmethod
-    def __init__(self,**kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         ...
 
     @abstractmethod
-    def translate(self,word: str) -> dict:
-        ...
-
-    
-    @classmethod
-    @abstractclassmethod
-    def format_word_response(cls,response: dict) -> WordInfo:
+    def translate(self, word: str) -> dict:
         ...
 
     @classmethod
     @abstractclassmethod
-    def format_sentence_response(cls,response: dict) -> WordInfo:
+    def format_word_response(cls, response: dict) -> WordInfo:
         ...
 
     @classmethod
     @abstractclassmethod
-    def download_audio_file(cls,url: str) -> bytes:
+    def format_sentence_response(cls, response: dict) -> SentenceInfo:
         ...
 
     @classmethod
-    def generate_word_audio_file_name(self,word: str,audio_type: str) -> str:
+    @abstractclassmethod
+    def download_audio_file(cls, url: str) -> bytes:
+        ...
+
+    @classmethod
+    def generate_word_audio_file_name(self, word: str, audio_type: str) -> str:
         file_id: str = hashlib.md5(word.encode("utf-8")).hexdigest()
         file_name: str = f"word_youdao_{audio_type}_{file_id}.mp3"
-        absolute_audio_file_path = os.path.join("/opt/",file_name)
+        absolute_audio_file_path = os.path.join("/opt/", file_name)
         return absolute_audio_file_path
-
-
-

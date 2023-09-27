@@ -9,3 +9,5 @@ python -m build
 ```bash
 pip install common_packages-0.1.0.tar.gz
 ```
+pypi
+https://pypi.org/project/common-packages/#description
