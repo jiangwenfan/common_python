@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "common_packages/**"
+      - "pyproject.toml"
 
 jobs:
   deploy:
