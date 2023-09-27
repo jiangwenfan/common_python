@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "common_packages"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = ["requests", 'pika']
 
 [tool.setuptools]
@@ -32,4 +32,5 @@ packages = [
     "common_packages.file_storage_utils",
     "common_packages.message_queue_utils",
     "common_packages.translate_utils",
+    "common_packages.utils",
 ]
