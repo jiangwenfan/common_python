@@ -9,7 +9,7 @@ from common_packages.message_queue_utils import MessageQueue
 
 class RabbitmqQueue(MessageQueue):
     def __init__(self, queue_name: str, host: str, port: str, **kwargs) -> None:
-        if not set(["username", "password"]).issubset(kwargs.keys()):
+        if not {"username", "password"}.issubset(kwargs.keys()):
             raise ValueError("username and password must be provided")
         self.queue_name = queue_name
         credentials = pika.PlainCredentials(kwargs["username"], kwargs["password"])
@@ -40,11 +40,11 @@ class RabbitmqQueue(MessageQueue):
     ) -> None:
         logging.info(f"consumer handle ok: {body.decode()}")
 
-    def consumer(self) -> None:
+    def consumer(self, welcome_message) -> None:
         self.channel.basic_consume(
             queue=self.queue_name,
             auto_ack=True,
             on_message_callback=self.message_callback,
         )
-        logging.info(f"consumer start...")
+        logging.info(f"consumer start success \n {welcome_message}")
         self.channel.start_consuming()

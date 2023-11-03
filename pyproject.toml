@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "common-packages"
+# 项目版本号
 version = "0.1.2"
 description = "封装了一些常用功能"
 authors = ["evans.jiang <evans.jiang@gmail.com>"]
@@ -24,7 +25,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common_packages"
 # 打包的版本号
-version = "0.1.4"
+version = "0.1.5"
 dependencies = ["requests", 'pika']
 
 [tool.setuptools]
@@ -34,4 +35,5 @@ packages = [
     "common_packages.message_queue_utils",
     "common_packages.translate_utils",
     "common_packages.utils",
+    "common_packages.email_utils",
 ]
