@@ -2,18 +2,23 @@ import json
 import sys
 
 sys.path.append("..")
-from common_packages.translate_utils.youdao import YoudaoTranslate
-from . import get_config
 import json
 import logging
-logging.basicConfig(level=logging.INFO) 
+
+from common_packages.translate_utils.youdao import YoudaoTranslate
+
+from . import get_config
+
+logging.basicConfig(level=logging.INFO)
+
 
 class TestYoudaoTranslate:
-
     def test_translate_word(self):
         config: dict = get_config()
         youdao = YoudaoTranslate(**config["translate"]["youdao"])
-        word_response: dict = youdao.translate("apple")
+        word_response: dict = youdao.translate(
+            "apple", source_language_code="en", target_language_code="zh-CN"
+        )
         assert len(word_response) > 1
         response = json.dumps(word_response, indent=4, ensure_ascii=False)
         print(f"youdao translate word: {response=}")
@@ -22,12 +27,13 @@ class TestYoudaoTranslate:
         config: dict = get_config()
         youdao = YoudaoTranslate(**config["translate"]["youdao"])
         sentence_response: dict = youdao.translate(
-            "The following quickstarts demonstrate how to create a custom Voice Assistant"
+            "The following quickstarts demonstrate how to create a custom Voice Assistant",
+            source_language_code="en",
+            target_language_code="ja",
         )
         assert len(sentence_response) > 1
         print(sentence_response)
 
-        
     def test_format_word(self):
         res: dict = YoudaoTranslate.format_word_response(
             response={
@@ -62,7 +68,7 @@ class TestYoudaoTranslate:
                 "speakUrl": "https://openapi.youdao.com/ttsapi?q=apple&langType=en-USA&sign=842FD658CB64EE4D83E6F2DB63BD4820&salt=1694583954151&voice=4&format=mp3&appKey=59c4b2a39ab77960&ttsVoiceStrict=false&osType=api",
             }
         )
-        print(json.dumps(res,indent=2,ensure_ascii=False))
+        print(json.dumps(res, indent=2, ensure_ascii=False))
 
     def test_format_sentence_response(self):
         res = YoudaoTranslate.format_sentence_response(
@@ -86,7 +92,7 @@ class TestYoudaoTranslate:
                 "speakUrl": "https://openapi.youdao.com/ttsapi?q=The+following+quickstarts+demonstrate+how+to+create+a+custom+Voice+Assistant&langType=en-USA&sign=A4BD0BA339893EEC4922AE35BF8E04ED&salt=1694657427689&voice=4&format=mp3&appKey=59c4b2a39ab77960&ttsVoiceStrict=false&osType=api",
             }
         )
-        print(json.dumps(res,indent=2,ensure_ascii=False))
+        print(json.dumps(res, indent=2, ensure_ascii=False))
 
     def test_generate_file_name(self):
         res = YoudaoTranslate.generate_word_audio_file_name("apple", "zh")

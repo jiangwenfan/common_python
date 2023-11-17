@@ -4,12 +4,15 @@ import logging
 import os
 import time
 import uuid
-from typing import Optional
+from typing import Literal, Optional, get_args
 
 import requests
 from requests.models import Response
 
 from common_packages.translate_utils import SentenceInfo, Translate, WordInfo
+
+LanguageCodeOfYoudao = Literal["zh-CHS", "zh-CHT", "en", "fr", "ja", "de", "es", "ko"]
+LanguageCodeOfBackend = Literal["zh-CN", "zh-TW", "en", "fr", "ja", "de", "es", "ko"]
 
 
 class YoudaoTranslate(Translate):
@@ -19,6 +22,7 @@ class YoudaoTranslate(Translate):
         self.YOUDAO_URL = kwargs["YOUDAO_URL"]
         self.APP_KEY = kwargs["APP_KEY"]
         self.APP_SECRET = kwargs["APP_SECRET"]
+        self._language_code_of_youdao = list(get_args(LanguageCodeOfYoudao))
 
     def _encrypt(self, salt, current_time, word):
         signStr = (
@@ -34,13 +38,56 @@ class YoudaoTranslate(Translate):
         size = len(q)
         return q if size <= 20 else q[0:10] + str(size) + q[size - 10 : size]
 
-    def _send_request(self, word: str) -> dict:
+    def change_language_code(
+        self, language_code_of_backend: LanguageCodeOfBackend
+    ) -> str:
+        """转换语言代码,将language_backend后端的语言代码转换为youdao的语言代码"""
+
+        match language_code_of_backend:
+            case "zh-CN":
+                return "zh-CHS"
+            case "zh-TW":
+                return "zh-CHT"
+            case _:
+                return language_code_of_backend
+
+    def _send_request(
+        self,
+        word: str,
+        source_language_code: LanguageCodeOfBackend,
+        target_language_code: LanguageCodeOfBackend,
+    ) -> dict:
+        """_summary_
+
+        Args:
+            word (str): _description_
+            source_language_code (str): 待翻译文本的语言代码
+            target_language_code (str): 目标语言代码
+
+        Raises:
+            ValueError: _description_
+            ValueError: _description_
+
+        Returns:
+            dict: _description_
+        """
         current_time = str(int(time.time()))
         salt = str(uuid.uuid1())
         sign = self._encrypt(salt=salt, current_time=current_time, word=word)
+
+        # 解决不同提供商对简体中文的表示问题
+        source_language_code = self.change_language_code(source_language_code)
+        target_language_code = self.change_language_code(target_language_code)
+        assert (
+            source_language_code in self._language_code_of_youdao
+        ), f"youdao不支持 {source_language_code} 语言code"
+        assert (
+            target_language_code in self._language_code_of_youdao
+        ), f"youdao不支持 {target_language_code} 语言code"
+
         data = {
-            "from": "en",
-            "to": "zh-CHS",
+            "from": source_language_code,
+            "to": target_language_code,
             "signType": "v3",
             "curtime": current_time,
             "sign": sign,
@@ -62,8 +109,17 @@ class YoudaoTranslate(Translate):
             raise ValueError(f"youdao translate status error: {response.status_code}")
         return response.json()
 
-    def translate(self, word: str) -> dict:
-        response: dict = self._send_request(word=word)
+    def translate(
+        self,
+        word: str,
+        source_language_code: LanguageCodeOfBackend,
+        target_language_code: LanguageCodeOfBackend,
+    ) -> dict:
+        response: dict = self._send_request(
+            word=word,
+            source_language_code=source_language_code,
+            target_language_code=target_language_code,
+        )
         if response["errorCode"] != "0":
             raise ValueError(f"youdao translate error: {word} {response['errorCode']=}")
         return response
