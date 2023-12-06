@@ -4,7 +4,7 @@ import pika
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 
-from common_packages.message_queue_utils import MessageQueue
+from common_packages.message_queue_utils.interface import MessageQueue
 
 
 class RabbitmqQueue(MessageQueue):
