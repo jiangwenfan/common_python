@@ -33,7 +33,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common_packages"
 # 打包的版本号
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
     "requests",
     'pika',
