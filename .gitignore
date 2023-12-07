@@ -164,3 +164,5 @@ cython_debug/
 test_temp_data
 secret.toml
 test.md
+*.mp3
+*.wav

@@ -21,8 +21,8 @@ class ClickhouseOperator:
         self.client = Client(
             host=self.host,
             port=self.port,
-            # user=self.user,
-            # password=self.password,
+            user=self.user,
+            password=self.password,
             database=self.database,
             settings={"use_numpy": True},
         )
