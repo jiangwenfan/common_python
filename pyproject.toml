@@ -33,18 +33,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common_packages"
 # 打包的版本号
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
-    "requests",
-    'pika',
-    "tencentcloud-sdk-python-tmt",
-    "kafka-python",
-    "clickhouse-driver",
-    "numpy",
-    "pandas",
-    "sqlalchemy",
-    "pymysql",
-    "azure-cognitiveservices-speech",
+    # "requests",
+    # 'pika',
+    # "tencentcloud-sdk-python-tmt",
+    # "kafka-python",
+    # "clickhouse-driver",
+    # "numpy",
+    # "pandas",
+    # "sqlalchemy",
+    # "pymysql",
+    # "azure-cognitiveservices-speech",
 ]
 
 [tool.setuptools]

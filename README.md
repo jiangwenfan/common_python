@@ -12,6 +12,19 @@ pip install common_packages-0.1.0.tar.gz
 pypi
 https://pypi.org/project/common-packages/#description
 
+依赖
+```bash
+    "requests",
+    'pika',
+    "tencentcloud-sdk-python-tmt",
+    "kafka-python",
+    "clickhouse-driver",
+    "numpy",
+    "pandas",
+    "sqlalchemy",
+    "pymysql",
+    "azure-cognitiveservices-speech",
+```
 ### sms
 腾讯云
 ```python
