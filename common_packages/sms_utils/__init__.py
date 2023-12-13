@@ -1,1 +1,1 @@
-from .tencent_sms import TencentSMS
+# from .tencent_sms import TencentSMS

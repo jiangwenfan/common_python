@@ -2,15 +2,9 @@
 
 
 import hashlib
-import json
-import logging
 import os
-import time
-import uuid
 from abc import ABCMeta, abstractclassmethod, abstractmethod
 from typing import TypedDict
-
-import requests
 
 
 class WordInfo(TypedDict):
