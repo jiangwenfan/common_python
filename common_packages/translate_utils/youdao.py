@@ -2,6 +2,7 @@ import hashlib
 import json
 import logging
 import os
+import random
 import time
 import uuid
 from typing import Literal, Optional, get_args
@@ -120,8 +121,22 @@ class YoudaoTranslate(Translate):
             source_language_code=source_language_code,
             target_language_code=target_language_code,
         )
-        if response["errorCode"] != "0":
-            raise ValueError(f"youdao translate error: {word} {response['errorCode']=}")
+        # 频率过快时,自动重试
+        num = 1
+        while response["errorCode"] in ["411", "412", "2411", "3411", "4411", "11411"]:
+            sleep_time: float = round(random.uniform(1, 5), 2)
+            logging.warning(f"youdao请求速度过快,{sleep_time}秒后自动重试,进行第{num}次重试")
+            time.sleep(sleep_time)
+            response = self._send_request(
+                word=word,
+                source_language_code=source_language_code,
+                target_language_code=target_language_code,
+            )
+            num += 1
+
+        error_code: str = response["errorCode"]
+        if error_code != "0":
+            raise ValueError(f"youdao translate error: {word} {error_code=}")
         return response
 
     @classmethod

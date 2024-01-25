@@ -24,6 +24,39 @@ class TestYoudaoTranslate:
         response = json.dumps(word_response, indent=4, ensure_ascii=False)
         print(f"youdao translate word: {response=}")
 
+    def test_translate_words(self):
+        """测试多个单词快速请求,触发重试"""
+        config: dict = get_config()
+        youdao = YoudaoTranslate(**config["translate"]["youdao"])
+        for word in [
+            "apple",
+            "banana",
+            "orange",
+            "pear",
+            "watermelon",
+            "grape",
+            "peach",
+            "lemon",
+            "strawberry",
+            "cherry",
+            "mango",
+            "pineapple",
+            "coconut",
+            "pomegranate",
+            "blueberry",
+            "raspberry",
+            "blackberry",
+            "apricot",
+            "avocado",
+            "fig",
+        ]:
+            word_response: dict = youdao.translate(
+                word, source_language_code="en", target_language_code="zh-CN"
+            )
+            # assert len(word_response) > 1
+            # response = json.dumps(word_response, indent=4, ensure_ascii=False)
+            # print(f"youdao translate word: {response=}")
+
     def test_translate_sentence(self):
         config: dict = get_config()
         youdao = YoudaoTranslate(**config["translate"]["youdao"])
