@@ -142,12 +142,15 @@ class YoudaoTranslate(Translate):
     @classmethod
     def format_word_response(cls, response: dict) -> WordInfo:
         # only word
-        basic_direction: dict = response["basic"]
+        basic_direction: dict | None = response.get("basic")
 
         word: str = response["query"]
 
         translation_no_class: list[str] = response["translation"]
-        translation_have_class: list[str] = basic_direction["explains"]
+
+        translation_have_class: list[str] | None = (
+            basic_direction.get("explains", []) if basic_direction else []
+        )
         translation = {
             "no_class": translation_no_class,
             "have_class": translation_have_class,
@@ -155,8 +158,12 @@ class YoudaoTranslate(Translate):
 
         translation_speak_url: str = response["tSpeakUrl"]
         source_speak_url: str = response["speakUrl"]
-        source_speech_uk: str = basic_direction["uk-speech"]
-        source_speech_us: str = basic_direction["us-speech"]
+        source_speech_uk: str | None = (
+            basic_direction.get("uk-speech") if basic_direction else None
+        )
+        source_speech_us: str | None = (
+            basic_direction.get("us-speech") if basic_direction else None
+        )
         speakUrl = {
             "translation_speak_url": translation_speak_url,
             "source_speak_url": source_speak_url,
@@ -164,14 +171,24 @@ class YoudaoTranslate(Translate):
             "source_speech_us": source_speech_us,
         }
 
-        phonetic_us: str = basic_direction["us-phonetic"]
-        phonetic: str = basic_direction["phonetic"]
-        phonetic_uk: str = basic_direction["uk-phonetic"]
+        phonetic_us: str | None = (
+            basic_direction.get("us-phonetic") if basic_direction else None
+        )
+        phonetic: str | None = (
+            basic_direction.get("phonetic") if basic_direction else None
+        )
+        phonetic_uk: str | None = (
+            basic_direction.get("uk-phonetic") if basic_direction else None
+        )
         phonetic = {"us": phonetic_us, "uk": phonetic_uk, "default": phonetic}
 
-        word_type: list[str] = basic_direction.get("exam_type")
+        word_type: list[str] | None = (
+            basic_direction.get("exam_type") if basic_direction else None
+        )
 
-        grammar_info: list[dict] = basic_direction.get("wfs")
+        grammar_info: list[dict] | None = (
+            basic_direction.get("wfs") if basic_direction else None
+        )
 
         extended_info: list[dict[str, list[str]]] | None = response.get("web")
 

@@ -1,5 +1,5 @@
 import os
-from typing import BinaryIO
+from collections.abc import ByteString
 
 from common_packages.file_storage_utils.file_interface import Storage
 
@@ -28,7 +28,7 @@ class LocalStorage(Storage):
                 )
         self.storage_home_dir = storage_home_dir
 
-    def save(self, filename: str, content: BinaryIO) -> tuple[bool, str]:
+    def save(self, filename: str, content: ByteString) -> tuple[bool, str]:
         """保存文件内容到指定文件中.filename是文件名，不是文件全部路径"""
         # 完整路径
         file_path: str = os.path.join(self.storage_home_dir, filename)

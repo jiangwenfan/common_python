@@ -1,5 +1,5 @@
 import logging
-from typing import BinaryIO
+from collections.abc import ByteString
 
 import requests
 
@@ -19,7 +19,7 @@ class TencentCos(Storage):
         self.secret_id = kwargs["secret_id"]
 
     # api 注明
-    def save(self, filename: str, content: BinaryIO) -> tuple[bool, str]:
+    def save(self, filename: str, content: ByteString) -> tuple[bool, str]:
         """只是文件名，而不是文件全部路径"""
         url = f"https://{self.bucket}.cos.{self.region}.myqcloud.com/{filename}"
         authorization: str = generate_tencent_key(

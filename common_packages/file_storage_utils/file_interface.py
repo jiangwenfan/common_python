@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import BinaryIO
+from collections.abc import ByteString
 
 import requests
 
@@ -11,7 +11,7 @@ class Storage(ABC):
         ...
 
     @abstractmethod
-    def save(self, filename: str, content: BinaryIO) -> tuple[bool, str]:
+    def save(self, filename: str, content: ByteString) -> tuple[bool, str]:
         ...
 
     @abstractmethod
