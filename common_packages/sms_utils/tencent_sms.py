@@ -1,3 +1,5 @@
+import logging
+
 from tencentcloud.common import credential
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import (
     TencentCloudSDKException,
@@ -5,17 +7,14 @@ from tencentcloud.common.exception.tencent_cloud_sdk_exception import (
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.sms.v20210111 import models, sms_client
+from tencentcloud.sms.v20210111.models import SendSmsResponse, SendStatus
 
 from common_packages.sms_utils.interface import SendSms
 
 
 class TencentSendSms(SendSms):
     def __init__(self, **kwargs) -> None:
-        """_summary_
-
-        Raises:
-            ValueError: _description_
-
+        """
         发送成功:
         {
             "SendStatusSet": [
@@ -68,7 +67,14 @@ class TencentSendSms(SendSms):
         self.endpoint = kwargs["endpoint"]
         self.veri_code_timeout = kwargs["veri_code_timeout"]
 
-    def send_sms_tencent(self, send_phone_number: str, veri_code: str):
+    def send(self, send_phone_number: str, veri_code: str, session_context: str = ""):
+        """
+        +8618285574257
+        2222
+
+        session_context:
+         用户的 session 内容（无需要可忽略）: 可以携带用户侧 ID 等上下文信息，server 会原样返回
+        """
         try:
             cred = credential.Credential(self.secret_id, self.secret_key)
             httpProfile = HttpProfile()
@@ -95,14 +101,17 @@ class TencentSendSms(SendSms):
             # req.PhoneNumberSet = ["+8618285574257"]
             req.PhoneNumberSet = [send_phone_number]
 
-            # 用户的 session 内容（无需要可忽略）: 可以携带用户侧 ID 等上下文信息，server 会原样返回
-            req.SessionContext = "111111111"
+            req.SessionContext = session_context
 
-            resp = client.SendSms(req)
-
-            # 输出json格式的字符串回包
-            print(resp.to_json_string(indent=2))
+            response: SendSmsResponse = client.SendSms(req)
+            response_status: SendStatus = response.SendStatusSet[0]
+            assert response_status.PhoneNumber == send_phone_number, "发送号码和响应号码不一致"
+            if response_status.Code != "Ok":
+                logging.error(f"发送短信失败: {response_status}")
+                return False
+            logging.debug(f"发送短信成功: {response_status}")
             return True
         except TencentCloudSDKException as err:
             print(err)
+            logging.error(f"发送短信失败: {err}")
             return False
