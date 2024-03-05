@@ -1,8 +1,14 @@
 from urllib.parse import quote_plus
 
-import pandas as pd
+try:
+    import pandas as pd
+    import pymysql
+    from sqlalchemy import create_engine
+except ImportError as exc:
+    raise ImportError(
+        "Couldn't import pandas sqlalchemy. pip install --upgrade pandas sqlalchemy pymysql"
+    ) from exc
 from pandas import DataFrame, Series
-from sqlalchemy import create_engine
 
 
 class MysqlOperator:

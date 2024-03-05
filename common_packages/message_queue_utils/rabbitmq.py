@@ -1,6 +1,10 @@
 import logging
 
-import pika
+try:
+    import pika
+except ImportError as exc:
+    raise ImportError("Couldn't import pika. pip install --upgrade pika") from exc
+
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 

@@ -1,6 +1,11 @@
 import os
 
-import azure.cognitiveservices.speech as speechsdk
+try:
+    import azure.cognitiveservices.speech as speechsdk
+except ImportError as exc:
+    raise ImportError(
+        "Couldn't import azure. pip install --upgrade azure-cognitiveservices-speech"
+    )
 from azure.cognitiveservices.speech import SpeechSynthesisResult
 
 

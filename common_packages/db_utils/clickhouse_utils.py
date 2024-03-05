@@ -1,7 +1,14 @@
 from typing import NoReturn, Optional, Union
 
-import pandas as pd
-from clickhouse_driver import Client
+try:
+    import numpy
+    import pandas as pd
+    from clickhouse_driver import Client
+except ImportError as exc:
+    raise ImportError(
+        "Couldn't import pandas clickhouse_driver. pip install --upgrade pandas clickhouse-driver numpy"
+    ) from exc
+
 from pandas import DataFrame, Series, Timedelta, Timestamp
 from pandas.core.dtypes.dtypes import CategoricalDtype
 

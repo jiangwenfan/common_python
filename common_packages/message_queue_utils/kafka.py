@@ -1,7 +1,12 @@
 import logging
 
-from kafka import KafkaProducer
-from kafka.errors import KafkaError
+try:
+    from kafka import KafkaProducer
+    from kafka.errors import KafkaError
+except ImportError as exc:
+    raise ImportError(
+        "Couldn't import kafka. pip install --upgrade kafka-python"
+    ) from exc
 
 from common_packages.message_queue_utils.interface import MessageQueue
 

@@ -1,6 +1,12 @@
 import json
 
-from tencentcloud.common import credential
+try:
+    from tencentcloud.common import credential
+except ImportError as exc:
+    raise ImportError(
+        "Couldn't import tencentcloud. pip install --upgrade tencentcloud-sdk-python-tmt"
+    ) from exc
+
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import (
     TencentCloudSDKException,
 )

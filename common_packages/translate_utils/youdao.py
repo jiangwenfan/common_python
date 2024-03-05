@@ -7,7 +7,10 @@ import time
 import uuid
 from typing import Literal, Optional, get_args
 
-import requests
+try:
+    import requests
+except ImportError:
+    raise ImportError("Couldn't import requests. pip install --upgrade requests")
 from requests.models import Response
 
 from common_packages.translate_utils import SentenceInfo, Translate, WordInfo
@@ -94,7 +97,7 @@ class YoudaoTranslate(Translate):
             "sign": sign,
             "appKey": self.APP_KEY,
             "salt": salt,
-            "q": word
+            "q": word,
             # 'vocabId':"您的用户词表ID"
         }
 
