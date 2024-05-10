@@ -1,2 +1,3 @@
 from .kafka import KafkaQueue
-from .rabbitmq import RabbitmqQueue
+
+# from .rabbitmq import RabbitmqQueue
