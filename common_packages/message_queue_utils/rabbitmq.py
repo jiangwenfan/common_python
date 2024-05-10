@@ -1,25 +1,39 @@
 import logging
 
-try:
-    import pika
-except ImportError as exc:
-    raise ImportError("Couldn't import pika. pip install --upgrade pika") from exc
-
-from pika.adapters.blocking_connection import BlockingChannel
-from pika.spec import Basic, BasicProperties
 
 from common_packages.message_queue_utils.interface import MessageQueue
 
 
 class RabbitmqQueue(MessageQueue):
+    def __new__(cls):
+        # 当使用rabbitmq时,导入pika库
+        global BlockingChannel, Basic, BasicProperties
+        try:
+            import pika
+            from pika.adapters.blocking_connection import BlockingChannel
+            from pika.spec import Basic, BasicProperties
+        except ImportError as exc:
+            raise ImportError(
+                "Couldn't import pika. pip install --upgrade pika"
+            ) from exc
+        else:
+            cls.pika = pika
+            # cls.BlockingChannel = BlockingChannel
+            # cls.Basic = Basic
+            # cls.BasicProperties = BasicProperties
+
+        return super().__new__()
+
     def __init__(self, queue_name: str, host: str, port: str, **kwargs) -> None:
         if not {"username", "password"}.issubset(kwargs.keys()):
             raise ValueError("username and password must be provided")
         self.queue_name = queue_name
-        credentials = pika.PlainCredentials(kwargs["username"], kwargs["password"])
+        credentials = self.pika.PlainCredentials(kwargs["username"], kwargs["password"])
         try:
-            self.connect = pika.BlockingConnection(
-                pika.ConnectionParameters(host=host, port=port, credentials=credentials)
+            self.connect = self.pika.BlockingConnection(
+                self.pika.ConnectionParameters(
+                    host=host, port=port, credentials=credentials
+                )
             )
         except Exception as e:
             raise ConnectionError(f"connect rabbitmq failed, {e}")
@@ -37,14 +51,14 @@ class RabbitmqQueue(MessageQueue):
 
     def message_callback(
         self,
-        ch: BlockingChannel,
-        method: Basic.Deliver,
-        properties: BasicProperties,
+        ch: BlockingChannel,  # type: ignore
+        method: Basic.Deliver,  # type: ignore
+        properties: BasicProperties,  # type: ignore
         body: bytes,
     ) -> None:
         logging.info(f"consumer handle ok: {body.decode()}")
 
-    def consumer(self, welcome_message) -> None:
+    def consumer(self, welcome_message) -> None:  # type: ignore
         self.channel.basic_consume(
             queue=self.queue_name,
             auto_ack=True,

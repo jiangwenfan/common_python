@@ -1,18 +1,26 @@
 import logging
 
-try:
-    from kafka import KafkaProducer
-    from kafka.errors import KafkaError
-except ImportError as exc:
-    raise ImportError(
-        "Couldn't import kafka. pip install --upgrade kafka-python"
-    ) from exc
 
 from common_packages.message_queue_utils.interface import MessageQueue
 
 
 class KafkaQueue(MessageQueue):
     """kafka消息队列的实现封装"""
+
+    def __new__(cls):
+        # 当使用kafka时,导入kafka库
+        try:
+            from kafka import KafkaProducer
+            from kafka.errors import KafkaError
+        except ImportError as exc:
+            raise ImportError(
+                "Couldn't import kafka. pip install --upgrade kafka-python"
+            ) from exc
+        else:
+            cls.KafkaProducer = KafkaProducer
+            cls.KafkaError = KafkaError
+
+        return super().__new__()
 
     def __init__(self, **kwargs) -> None:
         # check bootstrap_servers and topic
@@ -31,7 +39,7 @@ class KafkaQueue(MessageQueue):
         # init kafka producer
         self.bootstrap_servers: list[str] = kwargs["bootstrap_servers"]
         self.topic: str = kwargs["topic"]
-        self.producer = KafkaProducer(
+        self.producer = self.KafkaProducer(
             bootstrap_servers=self.bootstrap_servers, retries=5
         )
 
@@ -51,12 +59,13 @@ class KafkaQueue(MessageQueue):
         # Block for 'synchronous' sends
         try:
             record_metadata = future.get(timeout=10)
-        except KafkaError:
+        except self.KafkaError:
             # Decide what to do if produce request failed...
             logging.error(
-                f"send message to kafka failed,{item.decode('utf-8')}, {KafkaError}"
+                f"send message to kafka failed,\
+                    {item.decode('utf-8')}, {self.KafkaError}"
             )
-            assert True == False, "send message to kafka failed"
+            assert True is False, "send message to kafka failed"
         else:
             response_result = {
                 "topic": record_metadata.topic,
