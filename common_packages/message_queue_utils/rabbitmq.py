@@ -1,4 +1,4 @@
-import logging
+# import logging
 
 
 from common_packages.message_queue_utils.interface import MessageQueue
@@ -49,20 +49,20 @@ class RabbitmqQueue(MessageQueue):
     def enqueue(self, item: bytes) -> None:
         self.channel.basic_publish(exchange="", routing_key=self.queue_name, body=item)
 
-    def message_callback(
-        self,
-        ch: BlockingChannel,  # type: ignore
-        method: Basic.Deliver,  # type: ignore
-        properties: BasicProperties,  # type: ignore
-        body: bytes,
-    ) -> None:
-        logging.info(f"consumer handle ok: {body.decode()}")
+    # def message_callback(
+    #     self,
+    #     ch: BlockingChannel,  # type: ignore
+    #     method: Basic.Deliver,  # type: ignore
+    #     properties: BasicProperties,  # type: ignore
+    #     body: bytes,
+    # ) -> None:
+    #     logging.info(f"consumer handle ok: {body.decode()}")
 
-    def consumer(self, welcome_message) -> None:  # type: ignore
-        self.channel.basic_consume(
-            queue=self.queue_name,
-            auto_ack=True,
-            on_message_callback=self.message_callback,
-        )
-        logging.info(f"consumer start success \n {welcome_message}")
-        self.channel.start_consuming()
+    # def consumer(self, welcome_message) -> None:  # type: ignore
+    #     self.channel.basic_consume(
+    #         queue=self.queue_name,
+    #         auto_ack=True,
+    #         on_message_callback=self.message_callback,
+    #     )
+    #     logging.info(f"consumer start success \n {welcome_message}")
+    #     self.channel.start_consuming()
