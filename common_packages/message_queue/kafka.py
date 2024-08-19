@@ -1,7 +1,7 @@
 import logging
 
 
-from common_packages.message_queue_utils.interface import MessageQueue
+from common_packages.message_queue.interface import MessageQueue
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 

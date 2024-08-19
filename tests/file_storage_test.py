@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from common_packages.file_storage_utils import LocalStorage, TencentCos
+from common_packages.file_storage import LocalStorage, TencentCos
 from common_packages.utils import image_utils
 
 from . import get_config

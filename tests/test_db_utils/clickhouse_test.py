@@ -7,7 +7,7 @@ import logging
 
 from common_packages.db_utils import ClickhouseOperator
 
-from . import get_config
+from .. import get_config
 
 logging.basicConfig(level=logging.INFO)
 

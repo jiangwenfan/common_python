@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from common_packages.sms_utils import TencentSendSms
+from common_packages.sms import TencentSendSms
 from common_packages.utils import image_utils
 
 from . import get_config

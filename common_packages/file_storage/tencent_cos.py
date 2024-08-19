@@ -3,7 +3,7 @@ from collections.abc import ByteString
 
 import requests
 
-from common_packages.file_storage_utils.file_interface import Storage
+from common_packages.file_storage.file_interface import Storage
 from common_packages.utils.tencent_utils import generate_tencent_key
 
 # TODO sdk方式封装

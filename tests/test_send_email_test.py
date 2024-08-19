@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from common_packages.email_utils import SendEmail
+from common_packages.email import SendEmail
 
 from . import get_config
 
