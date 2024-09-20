@@ -59,7 +59,52 @@ need_insert_data = [
 need_insert_dataframe = pd.DataFrame(need_insert_data)
 rows: int = mysql_op.insert_database_mysql(need_insert_dataframe, "customers")
 ```
+### 2. fiel storage
+- [x] local storage
+```python
+# 接口对象
+local_config = {
+  "storage_home_dir" = "xxx"
+}
+local = LocalStorage(**local_config)
 
+# 接口1: 写入本地文件内容
+file_name: str = "test_save_file.txt"
+content: bytes = "abc测试123!@!@".encode()
+
+# file_path 是路径
+status: bool, file_path: str = local_obj.save(file_name, content)
+
+# 接口2: 读取本地文件内容
+file_name: str = "test_save_file.txt"
+content: bytes = "abc测试123!@!@".encode()
+
+status: bool, actual_content: str = local_obj.load(file_name)
+```
+- [x] tencent cos storage
+```python
+# 接口对象
+tencent_cos_config = {
+    "bucket": "xxx",
+    "region": "xxx",
+    "secret_key": "xxx",
+    "secret_id": "xxx"
+}
+tencent_cos = TencentCos(**tencent_cos_config)
+
+# 接口1: 写入cos文件内容
+file_name: str = "test_save_file.txt"
+content: bytes = "abc测试123!@!@".encode()
+
+status: bool, actual_file_name: str = tencent_cos_obj.save(
+    filename=file_name, content=content
+)
+
+# 接口2: 读取cos文件内容
+file_name: str = "test_save_file.txt"
+
+status: bool, actual_content: bytes = tencent_cos_obj.load(file_name)
+```
 ### 1. translation
 > 封装翻译接口
 >

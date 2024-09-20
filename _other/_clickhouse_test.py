@@ -6,8 +6,7 @@ import json
 import logging
 
 from common_packages.db_utils import ClickhouseOperator
-
-from .. import get_config
+from tests import get_config
 
 logging.basicConfig(level=logging.INFO)
 
