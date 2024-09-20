@@ -25,13 +25,40 @@ https://pypi.org/project/common-packages/#description
     "pymysql",
     "azure-cognitiveservices-speech",
 ```
-### sms
-腾讯云
-```python
 
+单元测试:
+```bash
+pytest
 ```
 
-- [x] 可选导入模块,未安装时,提示安装!
+### 1. db utils
+- [x] mysql
+```python
+# mysql配置
+mysql_config = {
+  "host": "xxx"
+  "port": xxx
+  "user" : "xxx"
+  "password" :"xxx"
+  "database" : "xxx"
+}
+
+mysql_op = MysqlOperator(**mysql_config)
+
+# 接口1: 获取所有表名
+tables: set[str] = mysql_op.fetch_all_tables()
+
+# 接口2: 执行`查询sql`,返回执行结果
+data: DataFrame, columns: list[str] = mysql_op.fetch_specify_sql_data("SELECT * FROM customers")
+
+# 接口3: 执行`插入sql`，使用指定dataframe数据，指定表名
+need_insert_data = [
+    {"customer_name": "test1", "email": "test1@gmail.com"},
+    {"customer_name": "test2", "email": "test2@gmail.com"},
+]
+need_insert_dataframe = pd.DataFrame(need_insert_data)
+rows: int = mysql_op.insert_database_mysql(need_insert_dataframe, "customers")
+```
 
 ### 1. translation
 > 封装翻译接口
@@ -61,3 +88,11 @@ https://pypi.org/project/common-packages/#description
 > 解释句子,分析长难句
 - [ ] openAI 翻译
 - [ ] gemini 翻译
+
+### sms
+腾讯云
+```python
+
+```
+
+- [x] 可选导入模块,未安装时,提示安装!

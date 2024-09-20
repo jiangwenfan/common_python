@@ -1,6 +1,9 @@
-from common_packages.translate import SentenceInfo, Translate, WordInfo
+import uuid
 from typing import Literal
-import requests, uuid, json
+
+import requests
+
+from common_packages.translate import SentenceInfo, Translate, WordInfo
 
 LanguageCodeOfBackend = Literal["zh-CN", "zh-TW", "en", "fr", "ja", "de", "es", "ko"]
 

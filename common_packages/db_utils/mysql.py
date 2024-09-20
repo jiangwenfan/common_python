@@ -35,9 +35,10 @@ class MysqlOperator:
         names_set: set[str] = set(names.to_list())
         return names_set
 
-    def fetch_specify_sql_data(self, sql: str) -> tuple[DataFrame, list[str], int]:
-        """执行指定sql获取数据
-        返回如下: 结果dataframe, 列数据, 记录行数
+    def fetch_specify_sql_data(self, sql: str) -> tuple[DataFrame, list[str]]:
+        """执行`指定插叙sql`,获取DataFrame类型的插叙结果
+
+        返回如下: 结果dataframe, 列名组成list
 
         replace_noneword False 表示不自动转换列名
         """
@@ -45,12 +46,12 @@ class MysqlOperator:
         data: DataFrame = pd.read_sql(sql, self.engine)
         columns: list[str] = data.columns.to_list()
         # print(type(data), columns, len(data))
-        return (data, columns, len(data))
+        return (data, columns)
 
-    def execute_sql(self, sql: str, parameters) -> None:
-        """执行sql"""
-        with self.engine.connect() as connection:
-            connection.execute(sql, parameters)
+    # def execute_sql(self, sql: str, parameters) -> None:
+    #     """执行sql"""
+    #     with self.engine.connect() as connection:
+    #         connection.execute(sql, parameters)
 
     # def delete_auto_increment_column(self, df: DataFrame, pk: str = "id") -> DataFrame:
     #     """删除dataframe中的自增列"""

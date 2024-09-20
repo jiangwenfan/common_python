@@ -1,11 +1,11 @@
+import subprocess
+import time
+
+import pymysql
 import pytest
 
 from common_packages.db_utils.mysql import MysqlOperator
-
-
-from .utils import parse_container_status
-import subprocess
-import time
+from tests.fixtures.utils import parse_container_status
 
 
 @pytest.fixture(scope="class")
@@ -38,37 +38,71 @@ def start_stop_mysql():
     yield "mysql"
 
     print("关闭临时mysql服务, test_services/compose-mysql.yml")
-    # subprocess.run(
-    #     [
-    #         "docker",
-    #         "compose",
-    #         "-f",
-    #         "test_services/compose-mysql.yml",
-    #         "down",
-    #     ],
-    #     check=True,
-    # )
+    subprocess.run(
+        [
+            "docker",
+            "compose",
+            "-f",
+            "test_services/compose-mysql.yml",
+            "down",
+        ],
+        check=True,
+    )
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="class")
 def mysql_op(global_config):
-    """用于在`每个测试用例`中初始化mysql操作对象"""
+    """用于在`整个mysql测试类`中初始化mysql操作对象"""
     mysql_config: dict = global_config["db"]["mysql"]
     mysql_op = MysqlOperator(**mysql_config)
-
     return mysql_op
 
 
-@pytest.fixture
-def clean_insert_data(mysql_op):
-    print("清理之前")
-    actual_rows = mysql_op.fetch_specify_sql_data("SELECT * FROM `customers`")[-1]
-    print("000>", actual_rows)
-    assert actual_rows == 3
+@pytest.fixture(scope="function")
+def reset_default_data(global_config):
+    """用于在`每个测试方法`中重置数据"""
+    connection = pymysql.connect(**global_config["db"]["mysql"])
+    try:
+        # 1. 清空 orders 表和 customers 表
+        with connection.cursor() as cursor:
+            sql = "delete from orders;"
+            cursor.execute(sql)
 
-    yield "clean"
-    print("清理之后")
-    mysql_op.execute_sql("DELETE FROM `customers` WHERE `customer_id` > %s;", (3,))
+            sql = "delete from customers;"
+            cursor.execute(sql)
 
-    actual_rows = mysql_op.fetch_specify_sql_data("SELECT * FROM `customers`")[-1]
-    assert actual_rows == 3
+            connection.commit()
+
+        # 2. 插入数据到 customers 表和 orders 表
+        with connection.cursor() as cursor:
+            sql = """INSERT INTO customers (customer_id,customer_name, email) VALUES\
+(1,'Alice Smith', 'alice@example.com'),(2,'Bob Johnson', 'bob@example.com'),\
+(3,'Charlie Lee', 'charlie@example.com');"""
+            cursor.execute(sql)
+
+            sql = """INSERT INTO orders (order_date, amount, customer_id) \
+VALUES('2024-08-01', 250.75, 1),('2024-08-02', 100.00, 2),('2024-08-03', 300.50, 3)"""
+            cursor.execute(sql)
+
+            connection.commit()
+
+        # 3. 查询表中的数据以确认插入成功
+        with connection.cursor() as cursor:
+            # 执行查询记录条数的 SQL 语句
+            sql = "SELECT COUNT(*) FROM customers"
+            cursor.execute(sql)
+            result = cursor.fetchone()  # 这里返回的是一个元组 (count,)
+            count = result[0]
+            assert count == 3, f"customers 表中的数据不正确,期望是3条,实际{count}条"
+
+            # 执行查询记录条数的 SQL 语句
+            sql = "SELECT COUNT(*) FROM orders"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            count = result[0]
+            assert count == 3, f"orders 表中的数据不正确,期望是3条,实际{count}条"
+
+    finally:
+        # 关闭连接
+        connection.close()
+    yield "reset data"
