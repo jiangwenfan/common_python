@@ -4,7 +4,7 @@ sys.path.append("..")
 from common_packages.file_storage import LocalStorage, TencentCos
 from common_packages.utils import image_utils
 
-from . import get_config
+from .. import get_config
 
 
 class TestLocalStorage:

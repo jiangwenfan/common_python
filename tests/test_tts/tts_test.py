@@ -7,7 +7,7 @@ import logging
 
 from common_packages.tts import TTSMicrosoft
 
-from . import get_config
+from .. import get_config
 
 logging.basicConfig(level=logging.INFO)
 

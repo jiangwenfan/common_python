@@ -1,7 +1,7 @@
 # import logging
 
 
-from common_packages.message_queue.interface import MessageQueue
+from common_packages._message_queue.interface import MessageQueue
 
 
 class RabbitmqQueue(MessageQueue):

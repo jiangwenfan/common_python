@@ -1,10 +1,10 @@
 import sys
 
 sys.path.append("..")
-from common_packages.message_queue import KafkaQueue
-from common_packages.message_queue.rabbitmq import RabbitmqQueue
+from common_packages._message_queue import KafkaQueue
+from common_packages._message_queue.rabbitmq import RabbitmqQueue
 
-from . import get_config
+from .. import get_config
 
 
 class TestRabbitmqQueue:

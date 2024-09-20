@@ -3,7 +3,7 @@ import sys
 sys.path.append("..")
 from common_packages.email import SendEmail
 
-from . import get_config
+from .. import get_config
 
 config: dict = get_config()
 content = "test content"

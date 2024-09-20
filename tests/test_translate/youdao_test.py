@@ -5,18 +5,18 @@ sys.path.append("..")
 import json
 import logging
 
-from common_packages.translate.tencent import TencentTranslate
+from common_packages.translate._tencent import TencentTranslate
 from common_packages.translate.youdao import YoudaoTranslate
 
-from . import get_config
+from .. import get_config
 
 logging.basicConfig(level=logging.INFO)
 
 
 class TestYoudaoTranslate:
     def test_translate_word(self):
-        config: dict = get_config()
-        youdao = YoudaoTranslate(**config["translate"]["youdao"])
+        # config: dict = get_config()
+        # youdao = YoudaoTranslate(**config["translate"]["youdao"])
         word_response: dict = youdao.translate(
             "apple", source_language_code="en", target_language_code="zh-CN"
         )
