@@ -4,10 +4,10 @@ sys.path.append("..")
 import json
 import logging
 
-from common_packages.translate._tencent import TencentTranslate
+from _other._tencent import TencentTranslate
 from common_packages.translate.youdao import YoudaoTranslate
 
-from .. import get_config
+from ..tests import get_config
 
 logging.basicConfig(level=logging.INFO)
 
