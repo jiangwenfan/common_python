@@ -110,6 +110,7 @@ status: bool, actual_content: bytes = tencent_cos_obj.load(file_name)
 >
 
 - [x] mircrosoft 翻译
+TODO 增加词典例句。补充单元测试。
 ```python
 
 ```

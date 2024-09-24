@@ -1,6 +1,6 @@
 import pytest
 
-from common_packages.translate.microsoft import MicrosoftTranslate
+from common_packages.translate.microsoft import TranslateMicrosoft
 
 # from common_packages.translate.youdao import YoudaoTranslate
 
@@ -12,8 +12,11 @@ from common_packages.translate.microsoft import MicrosoftTranslate
 
 
 @pytest.fixture(scope="class")
-def microsoft_op(global_config):
+def translate_microsoft_obj(global_config):
     """用于在`每个测试用例`中初始化微软翻译对象"""
     config: dict = global_config["translate"]["microsoft"]
-    microsoft_obj = MicrosoftTranslate(**config)
+    tts_microsoft_config = global_config["tts"]["microsoft"]
+    microsoft_obj = TranslateMicrosoft(
+        **config, tts_microsoft_config=tts_microsoft_config
+    )
     return microsoft_obj

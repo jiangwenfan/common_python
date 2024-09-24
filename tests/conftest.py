@@ -5,8 +5,7 @@ from tests.fixtures.storage import (
     tencent_cos_config,
     tencent_cos_obj,
 )
-
-# from tests.fixtures.translate import microsoft_obj
+from tests.fixtures.translate import translate_microsoft_obj
 from tests.fixtures.tts import tts_microsoft_obj
 from tests.fixtures.utils import global_config
 
@@ -20,6 +19,6 @@ __all__ = [
     "tencent_cos_config",
     "local_obj",
     "tencent_cos_obj",
-    # "microsoft_obj",
+    "translate_microsoft_obj",
     "tts_microsoft_obj",
 ]
