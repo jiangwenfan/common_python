@@ -5,7 +5,14 @@ from tests.fixtures.storage import (
     tencent_cos_config,
     tencent_cos_obj,
 )
-from tests.fixtures.translate import translate_microsoft_obj
+from tests.fixtures.translate import (
+    microsoft_all_raw_backTranslations,
+    microsoft_word_example_data,
+    microsoft_word_raw_response,
+    sentence_translate_data,
+    translate_microsoft_obj,
+    word_translate_data,
+)
 from tests.fixtures.tts import tts_microsoft_obj
 from tests.fixtures.utils import global_config
 
@@ -20,5 +27,10 @@ __all__ = [
     "local_obj",
     "tencent_cos_obj",
     "translate_microsoft_obj",
+    "microsoft_word_example_data",
+    "microsoft_word_raw_response",
+    "microsoft_all_raw_backTranslations",
+    "sentence_translate_data",
+    "word_translate_data",
     "tts_microsoft_obj",
 ]

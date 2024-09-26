@@ -33,12 +33,34 @@ class WordTranslation(TypedDict):
     display: str
 
     # 2.2 翻译词性,是 part-of-speech tag 的简写
-    # 参考词性对照表
-    pos_tag: str
+    # 参考词性对照表.
+    #  ("Adjectives", "形容词")
+    pos_tag: tuple[str, str]
 
     # 2.3 翻译频率
     # 数据格式: 10.3 保留一位小数, 页面显示为10.3%
     frequency: float
+
+    # 2.4 翻译的例句
+    """
+    该单词的翻译例句的结构:
+    - 一个单词出现在多个例句中
+    - 一个例句有多个翻译
+    [
+        {
+        "sourcePrefix": "前半句",
+        "sourceTerm": "关键词",
+        "sourceSuffix": "后半句",
+        "target": [
+            {
+                "targetPrefix": "翻译前半句",
+                "targetTerm": "翻译关键词",
+                "targetSuffix": "翻译后半句",
+            }
+        ],
+    ]
+    """
+    examples: list[dict]
 
     # 2.4 翻译前缀
     # prefixWord: str
@@ -54,7 +76,7 @@ class WordInfo(TypedDict):
     # word: str
 
     # 2. word翻译
-    translation: list[WordTranslation]
+    translations: list[WordTranslation]
 
     # 3. 单词其他变体形式, 例如复数, 过去式等
     shapes: list
@@ -79,7 +101,7 @@ class SentenceInfo(TypedDict):
     sentence: str
 
     # 2. 翻译之后的文本。部分翻译提供商提供多个翻译
-    translation: list[str]
+    translations: list[str]
 
     # 3. 原始sentence的发音数据
     audio_data: bytes
