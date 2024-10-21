@@ -124,6 +124,7 @@ config: dict = {
   "tts_microsoft_config": {
     "key": "xxx",
     "location_region": "xxx",
+  }
 }
 microsoft_obj = TranslateMicrosoft(**config)
 
@@ -174,3 +175,8 @@ res: SentenceInfo = translate_microsoft_obj.format_sentence_response(sentence_tr
 ```
 
 - [x] 可选导入模块,未安装时,提示安装!
+### 5. oauth
+[google文档](https://developers.google.com/identity/protocols/oauth2)
+- 1. [访问控制台](https://console.developers.google.com/) , 创建相关平台的凭据,选择`OAuth 2.0 客户端 ID`
+- 2. [调试范围支持的api](https://developers.google.com/oauthplayground/)
+- 3. [范围支持的api](https://developers.google.com/identity/protocols/oauth2/scopes)

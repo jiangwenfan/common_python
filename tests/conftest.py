@@ -1,4 +1,5 @@
 from tests.fixtures.db import mysql_op, reset_default_data, start_stop_mysql
+from tests.fixtures.llm import llm_baidu_ernie_obj
 from tests.fixtures.storage import (
     local_config,
     local_obj,
@@ -33,4 +34,5 @@ __all__ = [
     "sentence_translate_data",
     "word_translate_data",
     "tts_microsoft_obj",
+    "llm_baidu_ernie_obj",
 ]

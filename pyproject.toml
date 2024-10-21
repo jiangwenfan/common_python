@@ -20,6 +20,8 @@ pymysql = "^1.1.0"
 azure-cognitiveservices-speech = "^1.33.0"
 black = "^24.8.0"
 isort = "^5.13.2"
+openai = "^1.50.2"
+srt = "^3.5.3"
 
 
 [tool.poetry.group.dev.dependencies]
