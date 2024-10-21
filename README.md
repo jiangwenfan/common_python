@@ -180,3 +180,50 @@ res: SentenceInfo = translate_microsoft_obj.format_sentence_response(sentence_tr
 - 1. [访问控制台](https://console.developers.google.com/) , 创建相关平台的凭据,选择`OAuth 2.0 客户端 ID`
 - 2. [调试范围支持的api](https://developers.google.com/oauthplayground/)
 - 3. [范围支持的api](https://developers.google.com/identity/protocols/oauth2/scopes)
+
+google oauth2:
+配置文件:
+```toml
+[oauth2.google]
+client_id = "xxx"
+client_secret = "xxx"
+# 认证完成之后的回调地址,必须与google console中配置的一致
+redirect_uri = "http://localhost:9080/aaa"
+# 访问权限
+scope = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+```
+使用:
+```python
+from common_packages.oauth.google import GoogleOAuth2
+
+config = global_config["oauth2"]["google"]
+google_oauth2_obj = GoogleOAuth2(**config)
+
+# 1. 获取授权地址
+url = oauth2_google_obj.get_web_auth_url()
+
+# 2. 获取用户信息
+user_info = oauth2_google_obj.get_user_info("code 123")
+```
+
+### 6. llm 大模型
+百度的ernie大模型
+配置文件:
+```toml
+[llm.baidu_ernie]
+client_id = "xxxx"
+client_secret = "xxxx"
+```
+使用:
+```python
+from common_packages.llm.baidu_ernie import LLMBaiduErnie
+
+config = global_config["llm"]["baidu_ernie"]
+llm_baidu_ernie_obj =  LLMBaiduErnie(**config)
+
+# 1. 获取大模型回答结果
+res: str = llm_baidu_ernie_obj.send_model_request(text)
+
+# 2. 使用大模型判断是否为自然语言
+status: bool = llm_baidu_ernie_obj.is_natural_language(text)
+```

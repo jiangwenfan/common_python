@@ -37,11 +37,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common_packages"
 # pip打包的版本号
-version = "0.2.0"
+version = "0.2.1"
 description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
 dependencies = []
 
 [tool.setuptools]
+# pip 打包的内容
 packages = [
     "common_packages",
     "common_packages.db_utils",
@@ -51,6 +52,6 @@ packages = [
     "common_packages.translate",
     "common_packages.tts",
     "common_packages.utils",
-    # "common_packages.message_queue_utils",
-    # "common_packages.email_utils",
+    "common_packages.llm",
+    "common_packages.oauth2",
 ]
