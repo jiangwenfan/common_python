@@ -227,3 +227,36 @@ res: str = llm_baidu_ernie_obj.send_model_request(text)
 # 2. 使用大模型判断是否为自然语言
 status: bool = llm_baidu_ernie_obj.is_natural_language(text)
 ```
+
+### 7. geography 地理位置
+- [创建高德app](https://console.amap.com/dev/key/app)
+- [api文档](https://lbs.amap.com/api/webservice/guide/api/district)
+type分类
+```
+汽车服务
+汽车销售
+汽车维修
+摩托车服务
+餐饮服务
+购物服务
+生活服务
+体育休闲服务
+医疗保健服务
+住宿服务
+风景名胜
+商务住宅
+政府机构及社会团体
+科教文化服务
+交通设施服务
+金融保险服务
+公司企业
+道路附属设施
+地名地址信息
+公共设施
+事件活动
+室内设施
+虚拟数据
+通行设施
+
+汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施|事件活动|室内设施|虚拟数据|通行设施
+```
