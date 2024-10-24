@@ -2,7 +2,7 @@
 import requests
 
 
-class HistoryWeatherWanwei:
+class WeatherWanwei:
     """万维易源历史天气数据查询
     https://market.aliyun.com/apimarket/detail/cmapi010812
     """
@@ -12,7 +12,7 @@ class HistoryWeatherWanwei:
         self.base_url = "https://ali-weather.showapi.com/weatherhistory"
 
     def get_history_weather(
-        self, area: str, area_code: str, year_month: str
+        self, city_name: str, city_adcode: str, year_month: str
     ) -> list[dict]:
         """获取指定地区、月份的历史天气数据
         :param area: 地区名称，如新安县
@@ -32,9 +32,9 @@ class HistoryWeatherWanwei:
                 "weather": "晴"
         }
         """
-        url = f"{self.base_url}?area={area}&month={year_month}"
+        url = f"{self.base_url}?area={city_name}&month={year_month}"
         headers = {"Authorization": f"APPCODE {self.key}"}
-        params = {"area": area, "month": year_month}
+        params = {"area": city_name, "month": year_month}
         response = requests.get(url, headers=headers, params=params)
 
         # check 1
@@ -50,9 +50,9 @@ class HistoryWeatherWanwei:
         # check3
         showapi_res_body = res["showapi_res_body"]
         remark = showapi_res_body["remark"]
-        areaCode = showapi_res_body["areaCode"]
-        if remark != "查询成功！" or areaCode != area_code:
-            raise Exception(f"请求历史天气数据失败，错误信息：{remark} {areaCode}")
+        areaCode_res = showapi_res_body["areaCode"]
+        if remark != "查询成功！" or areaCode_res != city_adcode:
+            raise Exception(f"请求历史天气数据失败，错误信息：{remark} {areaCode_res}")
 
         data = showapi_res_body["list"]
         return data

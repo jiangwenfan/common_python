@@ -37,7 +37,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "common_packages"
 # pip打包的版本号
-version = "0.2.2"
+version = "0.2.3"
 description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
 dependencies = []
 
@@ -55,4 +55,5 @@ packages = [
     "common_packages.llm",
     "common_packages.oauth2",
     "common_packages.geograyphy",
+    "common_packages.weather",
 ]

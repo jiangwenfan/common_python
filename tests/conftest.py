@@ -18,6 +18,7 @@ from tests.fixtures.translate import (
 )
 from tests.fixtures.tts import tts_microsoft_obj
 from tests.fixtures.utils import global_config
+from tests.fixtures.weather import weather_amap, weather_wanwei
 
 __all__ = [
     "global_config",
@@ -40,4 +41,6 @@ __all__ = [
     "oauth2_google_obj",
     "china_district_amap",
     "search_location_amap",
+    "weather_amap",
+    "weather_wanwei",
 ]
