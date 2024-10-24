@@ -1,4 +1,5 @@
 from tests.fixtures.db import mysql_op, reset_default_data, start_stop_mysql
+from tests.fixtures.geography import china_district_amap, search_location_amap
 from tests.fixtures.llm import llm_baidu_ernie_obj
 from tests.fixtures.oauth2 import oauth2_google_obj
 from tests.fixtures.storage import (
@@ -37,4 +38,6 @@ __all__ = [
     "tts_microsoft_obj",
     "llm_baidu_ernie_obj",
     "oauth2_google_obj",
+    "china_district_amap",
+    "search_location_amap",
 ]
