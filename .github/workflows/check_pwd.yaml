@@ -7,13 +7,17 @@ on:
 #     - cron: "0 4 * * *" # run once a day at 4 AM
 jobs:
   scan:
-    name: gitleaks
+    name: check pwd
     runs-on: ubuntu-latest
     steps:
+       # 1. 检出仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
       # truffleHog 检查密码
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@v3.88.0
-        
+
       # gitleaks 检查密码
       - uses: actions/checkout@v4
         with:
