@@ -1,1 +1,1 @@
-password=123
+password="aB7@pX5*Lq2&"
