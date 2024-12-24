@@ -1,1 +1,1 @@
-password="aB7@pX5*Lq2&"
+password = "SuperSecret123!"
