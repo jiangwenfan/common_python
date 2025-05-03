@@ -22,6 +22,7 @@ black = "^24.8.0"
 isort = "^5.13.2"
 openai = "^1.50.2"
 srt = "^3.5.3"
+tencentcloud-sdk-python-common = "^3.0.1372"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -39,7 +40,6 @@ name = "common_packages"
 # TODO pip打包的版本号,每次都需要更新
 version = "0.2.4"
 description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
-dependencies = []
 
 [tool.setuptools]
 # pip 打包的内容
