@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: 3.11.2
 
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libffi-dev
+
       - name: Install poetry
         run: |
           pip install poetry && poetry config virtualenvs.create false
