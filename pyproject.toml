@@ -5,6 +5,7 @@ version = "0.1.2"
 description = "封装了一些常用功能,"
 authors = ["evans.jiang <evans.jiang@gmail.com>"]
 readme = "README.md"
+license = "MIT"                                   # 添加许可证字段
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -54,6 +55,6 @@ packages = [
     "common_packages.utils",
     "common_packages.llm",
     "common_packages.oauth2",
-    "common_packages.geography",  # 修复拼写错误
+    "common_packages.geography", # 修复拼写错误
     "common_packages.weather",
 ]
