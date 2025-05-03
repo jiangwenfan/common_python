@@ -5,6 +5,14 @@ on:
     paths:
       - "common_packages/**"
       - "pyproject.toml"
+  workflow_dispatch: # 添加手动触发器
+    inputs:
+      custom_version: # 可选，允许用户输入自定义版本号
+        description: 'Custom version for the build' 
+        required: false
+        default: ''
+
+# TODO 增加自定义构建版本
 
 jobs:
   deploy:
