@@ -206,7 +206,9 @@ class TranslateMicrosoft:
             _ = f"microsoft 词典翻译请求连接失败: {self.text_endpoint} {params} {headers} {body}"
             raise ValueError(_ + e)
         if response.status_code != 200:
-            raise ValueError(f"microsoft 词典翻译响应错误: {response.status_code}")
+            raise ValueError(
+                f"microsoft 词典翻译响应状态: {response.status_code}; 响应具体错误: {response.text}"
+            )
 
         # 6.返回原生响应
         response: list[dict] = response.json()
@@ -304,7 +306,9 @@ class TranslateMicrosoft:
             _ = f"microsoft 词典示例请求连接失败: {self.text_endpoint} {params} {headers} {body}"
             raise ValueError(_ + e)
         if response.status_code != 200:
-            raise ValueError(f"microsoft 词典示例响应错误: {response.status_code}")
+            raise ValueError(
+                f"microsoft 词典示例响应状态: {response.status_code}; 响应具体错误: {response.text}"
+            )
 
         # 6.返回原生响应
         response: list[dict] = response.json()
@@ -587,7 +591,9 @@ class TranslateMicrosoft:
             _ = f"microsoft 翻译请求连接失败: {self.text_endpoint} {params} {headers} {body}"
             raise ValueError(_ + e)
         if response.status_code != 200:
-            raise ValueError(f"microsoft 翻译响应错误: {response.status_code}")
+            raise ValueError(
+                f"microsoft 翻译响应状态: {response.status_code}; 响应具体错误: {response.text}"
+            )
 
         # 6.返回原生响应
         response: list[dict] = response.json()
@@ -595,7 +601,9 @@ class TranslateMicrosoft:
 
         # 解析1
         response_dict: dict = response[0]
-        assert "translations" in response_dict, f"microsoft翻译响应格式错误2: {response_dict}"
+        assert (
+            "translations" in response_dict
+        ), f"microsoft翻译响应格式错误2: {response_dict}"
         _ = {
             "translations": [
                 {
@@ -650,7 +658,9 @@ class TranslateMicrosoft:
                 # en: 英语, ja: 日语 等，不需要转换
                 return language_code_of_backend
             case _:
-                raise ValueError(f"microsoft不支持的语言代码: {language_code_of_backend}")
+                raise ValueError(
+                    f"microsoft不支持的语言代码: {language_code_of_backend}"
+                )
 
     @staticmethod
     def _change_pos_tag(pos_tag: str) -> tuple[str, str]:

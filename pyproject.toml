@@ -36,8 +36,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "common_packages"
-# pip打包的版本号
-version = "0.2.3"
+# TODO pip打包的版本号,每次都需要更新
+version = "0.2.4"
 description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
 dependencies = []
 
