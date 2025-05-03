@@ -32,7 +32,8 @@ setuptools = "^68.2.2"
 pre-commit = "^3.4.0"
 
 [build-system]
-requires = ["setuptools"]
+# requires = ["setuptools"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
