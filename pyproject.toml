@@ -5,7 +5,6 @@ version = "0.1.2"
 description = "封装了一些常用功能,"
 authors = ["evans.jiang <evans.jiang@gmail.com>"]
 readme = "README.md"
-license = "MIT"                                   # 添加许可证字段
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -41,7 +40,7 @@ name = "common_packages"
 # TODO pip打包的版本号,每次都需要更新
 version = "0.2.4"
 description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
-license = "MIT"
+license = { text = "MIT" }
 
 [tool.setuptools]
 # pip 打包的内容
