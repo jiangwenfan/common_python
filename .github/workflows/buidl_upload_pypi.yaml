@@ -40,14 +40,20 @@ jobs:
 
       # - name: build package
       #   run: python -m build
-      - name: build package with Poetry
-        run: poetry build
+      # - name: build package with Poetry
+      #   run: poetry build
 
-      - name: create pypi config
-        run: |
-          echo "[pypi]" > ~/.pypirc
-          echo "username = __token__" >> ~/.pypirc
-          echo "password = ${{ secrets.PYPI_TOKEN}}" >> ~/.pypirc
+      # - name: create pypi config
+      #   run: |
+      #     echo "[pypi]" > ~/.pypirc
+      #     echo "username = __token__" >> ~/.pypirc
+      #     echo "password = ${{ secrets.PYPI_TOKEN}}" >> ~/.pypirc
 
-      - name: upload package
-        run: cat ~/.pypirc && twine upload  dist/*
+      # - name: upload package
+      #   run: cat ~/.pypirc && twine upload  dist/*
+
+      - name: Configure PyPI token
+        run: poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+
+      - name: Publish to PyPI
+        run: poetry publish --build
