@@ -34,7 +34,9 @@ class TranslateMicrosoft:
         self.word_samples_endpoint = word_sample_endpoint
         self.location_region = location_region
         self.key = key
-        self.part_params = {"api-version": "3.0"}
+        # 这个由配置文件传入
+        # self.part_params = {"api-version": "3.0"}
+        self.part_params = {}
         self.tts_microsoft_obj = TTSMicrosoft(**tts_microsoft_config)
 
     def translate_word(
@@ -207,7 +209,8 @@ class TranslateMicrosoft:
             raise ValueError(_ + e)
         if response.status_code != 200:
             raise ValueError(
-                f"microsoft 词典翻译响应状态: {response.status_code}; 响应具体错误: {response.text}"
+                f"microsoft 词典翻译响应状态: {response.status_code}; 响应具体错误: {response.text};\
+                请求参数: {headers} {body}; 实际请求url: {response.url}"
             )
 
         # 6.返回原生响应
@@ -307,7 +310,9 @@ class TranslateMicrosoft:
             raise ValueError(_ + e)
         if response.status_code != 200:
             raise ValueError(
-                f"microsoft 词典示例响应状态: {response.status_code}; 响应具体错误: {response.text}"
+                f"microsoft 词典示例响应状态: {response.status_code}; 响应具体错误: {response.text};\
+                请求参数: {headers} {body};\
+                实际请求url: {response.url}"
             )
 
         # 6.返回原生响应
@@ -592,7 +597,8 @@ class TranslateMicrosoft:
             raise ValueError(_ + e)
         if response.status_code != 200:
             raise ValueError(
-                f"microsoft 翻译响应状态: {response.status_code}; 响应具体错误: {response.text}"
+                f"microsoft 翻译响应状态: {response.status_code}; 响应具体错误: {response.text}\
+                实际请求url: {response.url}; 请求参数: {headers} {body}"
             )
 
         # 6.返回原生响应

@@ -8,6 +8,7 @@ class TestMicrosoft:
     source_language_code = "en"
     target_language_code = "zh-CN"
 
+    # pytest tests/test_translate/microsoft_test.py::TestMicrosoft::test_translate_word
     def test_translate_word(self, translate_microsoft_obj):
         res_tran: dict = translate_microsoft_obj.translate_word(
             word=self.word,
