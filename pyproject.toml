@@ -1,10 +1,13 @@
 [tool.poetry]
 name = "common-packages"
 # 项目版本号
-version = "0.1.2"
+version = "0.2.4"
 description = "封装了一些常用功能,"
 authors = ["evans.jiang <evans.jiang@gmail.com>"]
+license = "MIT"
 readme = "README.md"
+# 自动打包子目录
+packages = [{ include = "common_packages" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -31,31 +34,36 @@ twine = "^4.0.2"
 setuptools = "^68.2.2"
 pre-commit = "^3.4.0"
 
+
 [build-system]
-# requires = ["setuptools"]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
-name = "common_packages"
-# TODO pip打包的版本号,每次都需要更新
-version = "0.2.4"
-description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
-license = { text = "MIT" }
+# [build-system]
+# # requires = ["setuptools"]
+# requires = ["setuptools>=61.0", "wheel"]
+# build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# pip 打包的内容
-packages = [
-    "common_packages",
-    "common_packages.db_utils",
-    "common_packages.file_storage",
-    # "common_packages.parse_subtitle",
-    "common_packages.sms",
-    "common_packages.translate",
-    "common_packages.tts",
-    "common_packages.utils",
-    "common_packages.llm",
-    "common_packages.oauth2",
-    "common_packages.geography", # 修复拼写错误
-    "common_packages.weather",
-]
+# [project]
+# name = "common_packages"
+# # TODO pip打包的版本号,每次都需要更新
+# version = "0.2.4"
+# description = "封装了一些常用功能,GitHub: https://github.com/jiangwenfan/common_packages/tree/main"
+# license = { text = "MIT" }
+
+# [tool.setuptools]
+# # pip 打包的内容
+# packages = [
+#     "common_packages",
+#     "common_packages.db_utils",
+#     "common_packages.file_storage",
+#     # "common_packages.parse_subtitle",
+#     "common_packages.sms",
+#     "common_packages.translate",
+#     "common_packages.tts",
+#     "common_packages.utils",
+#     "common_packages.llm",
+#     "common_packages.oauth2",
+#     "common_packages.geography", # 修复拼写错误
+#     "common_packages.weather",
+# ]
