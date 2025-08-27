@@ -276,4 +276,5 @@ python -m build
 单元测试:
 ```bash
 pytest
+pytest path/to/test_file.py::TestClassName::test_method_name
 ```
