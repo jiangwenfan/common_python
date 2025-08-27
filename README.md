@@ -5,8 +5,12 @@
 ```bash
 pip install common_packages-0.1.0.tar.gz
 ```
-**pypi**
-https://pypi.org/project/common-packages/#description
+
+[**pypi首页**](https://pypi.org/project/common-packages/#description)
+
+
+> 可以 README 使用右边的目录进行快速浏览
+
 
 
 ## 1. db utils
