@@ -1,38 +1,20 @@
 # common_packages
 封装了一些通用的功能
 
-打包
-```bash
-python -m build
-```
-安装
+**安装**
 ```bash
 pip install common_packages-0.1.0.tar.gz
 ```
-pypi
+**pypi**
 https://pypi.org/project/common-packages/#description
 
-依赖
-```bash
-    "requests",
-    'pika',
-    "tencentcloud-sdk-python-tmt",
-    "kafka-python",
-    "clickhouse-driver",
-    "numpy",
-    "pandas",
-    "sqlalchemy",
-    "pymysql",
-    "azure-cognitiveservices-speech",
-```
 
-单元测试:
+## 1. db utils
+### [x] mysql
+**安装依赖**
 ```bash
-pytest
 ```
-
-### 1. db utils
-- [x] mysql
+**使用**
 ```python
 # mysql配置
 mysql_config = {
@@ -59,8 +41,8 @@ need_insert_data = [
 need_insert_dataframe = pd.DataFrame(need_insert_data)
 rows: int = mysql_op.insert_database_mysql(need_insert_dataframe, "customers")
 ```
-### 2. file storage
-- [x] local storage
+## 2. file storage
+### [x] local storage
 ```python
 # 接口对象
 local_config = {
@@ -81,7 +63,7 @@ content: bytes = "abc测试123!@!@".encode()
 
 status: bool, actual_content: str = local_obj.load(file_name)
 ```
-- [x] tencent cos storage
+### [x] tencent cos storage
 ```python
 # 接口对象
 tencent_cos_config = {
@@ -105,11 +87,11 @@ file_name: str = "test_save_file.txt"
 
 status: bool, actual_content: bytes = tencent_cos_obj.load(file_name)
 ```
-### 3. translation
+## 3. translation
 > 封装翻译接口
 >
 
-- [x] mircrosoft 翻译
+### [x] mircrosoft 翻译
 ```python
 from common_packages.translate import SentenceInfo, WordInfo
 from common_packages.translate.microsoft import TranslateMicrosoft
@@ -163,19 +145,35 @@ res: SentenceInfo = translate_microsoft_obj.format_sentence_response(sentence_tr
   - tencent 翻译,翻译质量较差
   - youdao 翻译
 
-### 3. Ai接口
+## 4. tts接口
+> 封装文本转语音接口
+
+### [x] mircrosoft 文本转语音
+依赖:
+- import requests
+```python
+tts_config = {
+   key: "xx",
+   location_region: "xx",
+   language: "en|zh"
+}
+tts = TTSMicrosoft(tts_config)
+audio: bytes = tts.convert_text_to_speech("hello 123")
+```
+
+## 5. Ai接口
 > 解释句子,分析长难句
 - [ ] openAI 翻译
 - [ ] gemini 翻译
 
-### 4. sms
+## 6. sms
 腾讯云
 ```python
 
 ```
 
 - [x] 可选导入模块,未安装时,提示安装!
-### 5. oauth
+## 7. oauth
 [google文档](https://developers.google.com/identity/protocols/oauth2)
 - 1. [访问控制台](https://console.developers.google.com/) , 创建相关平台的凭据,选择`OAuth 2.0 客户端 ID`
 - 2. [调试范围支持的api](https://developers.google.com/oauthplayground/)
@@ -206,7 +204,7 @@ url = oauth2_google_obj.get_web_auth_url()
 user_info = oauth2_google_obj.get_user_info("code 123")
 ```
 
-### 6. llm 大模型
+## 6. llm 大模型
 百度的ernie大模型
 配置文件:
 ```toml
@@ -228,7 +226,7 @@ res: str = llm_baidu_ernie_obj.send_model_request(text)
 status: bool = llm_baidu_ernie_obj.is_natural_language(text)
 ```
 
-### 7. geography 地理位置
+## 7. geography 地理位置
 - [创建高德app](https://console.amap.com/dev/key/app)
 - [api文档](https://lbs.amap.com/api/webservice/guide/api/district)
 type分类
@@ -264,4 +262,14 @@ type分类
 - 获取中国中国行政区
 - 获取指定位置
 ```python
+```
+
+## 开发协作
+打包
+```bash
+python -m build
+```
+单元测试:
+```bash
+pytest
 ```
