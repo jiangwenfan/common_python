@@ -1,3 +1,4 @@
+import time
 import requests
 
 
@@ -78,4 +79,6 @@ class SearchLocationAmap:
             else:
                 # 存在下一页, 更新num
                 num += 1
+                # 限制请求次数,避免出现1秒超过3次的限制
+                time.sleep(1)
         return res
