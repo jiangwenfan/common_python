@@ -26,11 +26,11 @@ class TestChinaDistrictAmap:
             # 1. 断言外层list结构
             assert isinstance(city_info, list) is True
             # 2. 断言内层dict结构
-            # 如果 _ 存在,则表示该省单位下面没有市
+            # 如果 _message 存在,则表示该省单位下面没有市
             city = city_info[0]
-            if "_" in city.keys():
+            if "_message" in city.keys():
                 # 返回 情况2
-                assert city["_"] == "该省单位下面没有市"
+                assert city["_message"] == "该省单位下面没有市"
                 continue
             else:
                 # 返回 情况1

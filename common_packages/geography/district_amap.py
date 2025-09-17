@@ -113,7 +113,7 @@ class ChinaDistrictAmap:
             "level": "city",
             "districts": []
         2. 情况2
-            _ : "该省单位下面没有市"
+            _message : "该省单位下面没有市"
         """
 
         # 跳过对 香港、澳门 下面的区,进行获取区下面(的区)
@@ -123,7 +123,7 @@ class ChinaDistrictAmap:
         }
         if privince_adcode in _.keys():
             print(f"跳过对 {_.get(privince_adcode)} 获取下级(市)行政区")
-            return [{"_": "该省单位下面没有市"}]
+            return [{"_message": "该省单位下面没有市"}]
 
         url = f"{self.base_url}?key={self.key}&keywords={privince_name}"
         privince_info = self._send_request(url)
