@@ -1,3 +1,6 @@
+import time
+
+
 class TestChinaDistrictAmap:
     def test_get_privince(self, china_district_amap):
         privinces = china_district_amap.get_privince()
@@ -48,11 +51,14 @@ class TestChinaDistrictAmap:
             {"name": "鞍山市", "code": "0412", "adcode": "210300"},
             # 青海省海西蒙古族藏族自治州
             {"name": "海西蒙古族藏族自治州", "code": "0977", "adcode": "632800"},
+            # 香港特别行政区，通过省单位获取
+            {"name": "香港特别行政区", "code": "1852", "adcode": "810000"},
         ]
         for city in cities:
             district_info = china_district_amap.get_district(
                 city["name"], city["code"], city["adcode"]
             )
+            time.sleep(1)
             # 1. 断言外层list结构
             assert isinstance(district_info, list) is True
             # 2. 断言内层dict结构

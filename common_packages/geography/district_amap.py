@@ -17,6 +17,10 @@ class ChinaDistrictAmap:
         self.key = key
         self.base_url = "https://restapi.amap.com/v3/config/district"
         self.country = "中华人民共和国"
+        self._ = {
+            "810000": "香港特别行政区",
+            "820000": "澳门特别行政区",
+        }
 
     def _send_request(
         self,
@@ -117,12 +121,8 @@ class ChinaDistrictAmap:
         """
 
         # 跳过对 香港、澳门 下面的区,进行获取区下面(的区)
-        _ = {
-            "810000": "香港特别行政区",
-            "820000": "澳门特别行政区",
-        }
-        if privince_adcode in _.keys():
-            print(f"跳过对 {_.get(privince_adcode)} 获取下级(市)行政区")
+        if privince_adcode in self._.keys():
+            print(f"跳过对 {self._.get(privince_adcode)} 获取下级(市)行政区")
             return [{"_message": "该省单位下面没有市"}]
 
         url = f"{self.base_url}?key={self.key}&keywords={privince_name}"
@@ -165,7 +165,14 @@ class ChinaDistrictAmap:
         city_code_res = city_info["citycode"]
         city_adcode_res = city_info["adcode"]
         level = city_info["level"]
-        assert level == "city"
+
+        # 如果是香港、澳门,则level为province
+        # --- 暂时不对比citycode了
+        if city_name in self._.values() and city_adcode in self._.keys():
+            assert level == "province"
+        else:
+            assert level == "city"
+
         assert city_name_res == city_name
         assert city_code_res == city_code
         assert city_adcode_res == city_adcode
