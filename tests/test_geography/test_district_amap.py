@@ -16,6 +16,8 @@ class TestChinaDistrictAmap:
         provinces = [
             {"name": "河南省", "adcode": "410000"},
             {"name": "四川省", "adcode": "510000"},
+            # 香港特别行政区，该省单位下面没有市
+            {"name": "香港特别行政区", "adcode": "810000"},
         ]
         for province in provinces:
             city_info = china_district_amap.get_city(
@@ -24,12 +26,19 @@ class TestChinaDistrictAmap:
             # 1. 断言外层list结构
             assert isinstance(city_info, list) is True
             # 2. 断言内层dict结构
+            # 如果 _ 存在,则表示该省单位下面没有市
             city = city_info[0]
-            assert isinstance(city, dict) is True
-            assert len(city["citycode"]) > 0
-            assert len(city["adcode"]) > 0
-            assert len(city["name"]) > 0
-            assert city["level"] == "city"
+            if "_" in city.keys():
+                # 返回 情况2
+                assert city["_"] == "该省单位下面没有市"
+                continue
+            else:
+                # 返回 情况1
+                assert isinstance(city, dict) is True
+                assert len(city["citycode"]) > 0
+                assert len(city["adcode"]) > 0
+                assert len(city["name"]) > 0
+                assert city["level"] == "city"
 
     def test_get_district(self, china_district_amap):
         cities = [

@@ -64,7 +64,7 @@ class ChinaDistrictAmap:
 
         # 有效结果只能有1个
         if len(response_data_info) != 1:
-            raise Exception("未找到符合条件的district")
+            raise Exception(f"未找到符合条件的district, districts: {districts}")
 
         # 3. 将实际有效的内容进行提取返回
         return response_data_info[0]
@@ -100,13 +100,31 @@ class ChinaDistrictAmap:
         privince_name: 省份名称
         privince_adcode: 省份行政区域编码
 
-        "citycode": "0379", # 城市编码
-        "adcode": "410300", # 行政区域编码
-        "name": "洛阳市",
-        "center": "112.453895,34.619702",
-        "level": "city",
-        "districts": []
+        但是会跳过:香港特别行政区,澳门特别行政区,这2个属于省单位，但是没有市直接是区
+        因为这2个省级单位下面单位直接是 九龙城区 这种区，没有市所以直接跳过
+
+
+        返回:
+        1. 情况1
+            "citycode": "0379", # 城市编码
+            "adcode": "410300", # 行政区域编码
+            "name": "洛阳市",
+            "center": "112.453895,34.619702",
+            "level": "city",
+            "districts": []
+        2. 情况2
+            _ : "该省单位下面没有市"
         """
+
+        # 跳过对 香港、澳门 下面的区,进行获取区下面(的区)
+        _ = {
+            "810000": "香港特别行政区",
+            "820000": "澳门特别行政区",
+        }
+        if privince_adcode in _.keys():
+            print(f"跳过对 {_.get(privince_adcode)} 获取下级(市)行政区")
+            return [{"_": "该省单位下面没有市"}]
+
         url = f"{self.base_url}?key={self.key}&keywords={privince_name}"
         privince_info = self._send_request(url)
 
