@@ -18,7 +18,18 @@ class ChinaDistrictAmap:
         self.base_url = "https://restapi.amap.com/v3/config/district"
         self.country = "中华人民共和国"
 
-    def _send_request(self, url: str) -> dict:
+    def _send_request(
+        self,
+        url: str,
+        name: str | None = None,
+        adcode: str | None = None,
+        citycode: str | None = None,
+    ) -> dict:
+        """
+        name,adcode,citycode 用于校验和解析有效的districts
+         - 默认为None, 校验条件是districts长度是1
+         - 如果不为None, districts长度大于1,则根据 name,adcode,citycode 过滤，找到唯一值
+        """
         response = requests.get(url)
         if response.status_code != 200:
             raise Exception("请求高德地图API失败")
@@ -35,11 +46,28 @@ class ChinaDistrictAmap:
 
         # 2. 校验响应结构
         districts = res["districts"]
-        assert len(districts) == 1
+        # 符合条件的有效结果
+        response_data_info = []
+        if (name is not None) and (adcode is not None) and (citycode is not None):
+            # 3个同时不是None,进行过滤,此时districts长度 >= 1
+            assert len(districts) >= 1, "districts长度必须大于等于1"
+            for district in districts:
+                if (
+                    district["name"] == name
+                    and district["adcode"] == adcode
+                    and district["citycode"] == citycode
+                ):
+                    response_data_info.append(district)
+        else:
+            assert len(districts) == 1
+            response_data_info = districts
+
+        # 有效结果只能有1个
+        if len(response_data_info) != 1:
+            raise Exception("未找到符合条件的district")
 
         # 3. 将实际有效的内容进行提取返回
-        response_data_info = districts[0]
-        return response_data_info
+        return response_data_info[0]
 
     def get_privince(self) -> list[dict]:
         """获取省份
@@ -110,7 +138,9 @@ class ChinaDistrictAmap:
         "districts": []
         """
         url = f"{self.base_url}?key={self.key}&keywords={city_name}"
-        city_info = self._send_request(url)
+        city_info = self._send_request(
+            url, name=city_name, adcode=city_adcode, citycode=city_code
+        )
 
         # check
         city_name_res = city_info["name"]
